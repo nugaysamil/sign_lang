@@ -47,7 +47,7 @@ public class  objectDetectorClass {
     private int height=0;
     private  int width=0;
 
-    private int Classification_Input_Size = 0;
+    private int Classification_Input_Size = 224;
 
 
     objectDetectorClass(AssetManager assetManager,String modelPath, String labelPath,int inputSize, String classification_model,int classification_input_size) throws IOException{
@@ -72,13 +72,10 @@ public class  objectDetectorClass {
     }
 
     private List<String> loadLabelList(AssetManager assetManager, String labelPath) throws IOException {
-        // to store label
-        List<String> labelList=new ArrayList<>();
-        // create a new reader
-        BufferedReader reader=new BufferedReader(new InputStreamReader(assetManager.open(labelPath)));
+        List<String> labelList = new ArrayList<>();
+        BufferedReader reader = new BufferedReader(new InputStreamReader(assetManager.open(labelPath)));
         String line;
-        // loop through each line and store it to labelList
-        while ((line=reader.readLine())!=null){
+        while ((line = reader.readLine()) != null) {
             labelList.add(line);
         }
         reader.close();
@@ -94,6 +91,16 @@ public class  objectDetectorClass {
         long declaredLength=fileDescriptor.getDeclaredLength();
 
         return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,declaredLength);
+    }
+
+    private int getMaxIndex(float[] scores) {
+        int maxIndex = 0;
+        for (int i = 1; i < scores.length; i++) {
+            if (scores[i] > scores[maxIndex]) {
+                maxIndex = i;
+            }
+        }
+        return maxIndex;
     }
     // create new Mat function
     public Mat recognizeImage(Mat mat_image){
@@ -209,23 +216,18 @@ public class  objectDetectorClass {
 
                 Bitmap scaledBitmap1 = Bitmap.createScaledBitmap(bitmap1,Classification_Input_Size,Classification_Input_Size,false);
 
-                ByteBuffer byteBuffer1 = convertBitmapToByteBuffer(scaledBitmap1);
+                ByteBuffer byteBuffer1 = convertBitmapToByteBuffer1(scaledBitmap1);
 
-                float[][] output_class_value = new float[1][1];
+                float[][] output_class_value = new float[1][26];
 
                 interpreter2.run(byteBuffer1,output_class_value);
 
-
                 Log.d("objectDetectionClass", "output_class_value" + output_class_value[0][0]);
-                String sign_val = get_alphabets(output_class_value[0][0]);
-
-
-                Imgproc.putText(rotated_mat_image,""+sign_val,new Point(x1+10,y1+40),2,1.5,new Scalar(255,255,255,255));
+                int maxIndex = getMaxIndex(output_class_value[0]);
+                String sign_val = labelList.get(maxIndex);
+                Imgproc.putText(rotated_mat_image, sign_val, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255));
 
                 Imgproc.rectangle(rotated_mat_image,new Point(x1,y1),new Point(x2,y2),new Scalar(0,255,0,255),2);
-
-
-
 
             }
 
@@ -243,61 +245,6 @@ public class  objectDetectorClass {
         return mat_image;
     }
 
-    private String get_alphabets(float sig_v) {
-        String val = "";
-        if (sig_v >= 0.5 && sig_v < 1.5) {
-            val = "A";
-        } else if (sig_v >= 0.5 && sig_v < 2.5) {
-            val = "B";
-        } else if (sig_v >= 1.5 && sig_v < 3.5) {
-            val = "C";
-        } else if (sig_v >= 2.5 && sig_v < 4.5) {
-            val = "D";
-        } else if (sig_v >= 3.5 && sig_v < 5.5) {
-            val = "E";
-        } else if (sig_v >= 4.5 && sig_v < 6.5) {
-            val = "F";
-        } else if (sig_v >= 5.5 && sig_v < 7.5) {
-            val = "G";
-        } else if (sig_v >= 6.5 && sig_v < 8.5) {
-            val = "H";
-        } else if (sig_v >= 7.5 && sig_v < 9.5) {
-            val = "I";
-        } else if (sig_v >= 8.5 && sig_v < 10.5) {
-            val = "J";
-        } else if (sig_v >= 9.5 && sig_v < 11.5) {
-            val = "K";
-        } else if (sig_v >= 10.5 && sig_v < 12.5) {
-            val = "L";
-        } else if (sig_v >= 11.5 && sig_v < 13.5) {
-            val = "M";
-        } else if (sig_v >= 12.5 && sig_v < 14.5) {
-            val = "N";
-        } else if (sig_v >= 13.5 && sig_v < 15.5) {
-            val = "O";
-        } else if (sig_v >= 14.5 && sig_v < 16.5) {
-            val = "P";
-        } else if (sig_v >= 15.5 && sig_v < 17.5) {
-            val = "Q";
-        } else if (sig_v >= 16.5 && sig_v < 18.5) {
-            val = "R";
-        } else if (sig_v >= 17.5 && sig_v < 19.5) {
-            val = "S";
-        } else if (sig_v >= 18.5 && sig_v < 20.5) {
-            val = "T";
-        } else if (sig_v >= 19.5 && sig_v < 21.5) {
-            val = "U";
-        } else if (sig_v >= 20.5 && sig_v < 22.5) {
-            val = "V";
-        } else if (sig_v >= 21.5 && sig_v < 23.5) {
-            val = "W";
-        } else if (sig_v >= 22.5 && sig_v < 24.5) {
-            val = "X";
-        } else {
-            val = "Y";
-        }
-        return val;
-    }
 
 
 
