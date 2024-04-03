@@ -222,10 +222,12 @@ public class  objectDetectorClass {
 
                 interpreter2.run(byteBuffer1,output_class_value);
 
+
                 Log.d("objectDetectionClass", "output_class_value" + output_class_value[0][0]);
-                int maxIndex = getMaxIndex(output_class_value[0]);
-                String sign_val = labelList.get(maxIndex);
-                Imgproc.putText(rotated_mat_image, sign_val, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255));
+                //int maxIndex = getMaxIndex(output_class_value[0]);
+                //String sign_val = labelList.get(maxIndex);
+                String sign_val = getAlphabets(output_class_value[0][0]);
+                Imgproc.putText(rotated_mat_image, ""+ sign_val, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255),2);
 
                 Imgproc.rectangle(rotated_mat_image,new Point(x1,y1),new Point(x2,y2),new Scalar(0,255,0,255),2);
 
@@ -245,7 +247,68 @@ public class  objectDetectorClass {
         return mat_image;
     }
 
+    private String getAlphabets(float signValue) {
+        String value = "";
 
+        if (signValue >= -0.5 && signValue < 0.5) {
+            value = "A";
+        } else if (signValue >= 0.5 && signValue < 1.5) {
+            value = "B";
+        } else if (signValue >= 1.5 && signValue < 2.5) {
+            value = "C";
+        } else if (signValue >= 2.5 && signValue < 3.5) {
+            value = "D";
+        } else if (signValue >= 3.5 && signValue < 4.5) {
+            value = "E";
+        } else if (signValue >= 4.5 && signValue < 5.5) {
+            value = "F";
+        } else if (signValue >= 5.5 && signValue < 6.5) {
+            value = "G";
+        } else if (signValue >= 6.5 && signValue < 7.5) {
+            value = "H";
+        } else if (signValue >= 7.5 && signValue < 8.5) {
+            value = "I";
+        } else if (signValue >= 8.5 && signValue < 9.5) {
+            value = "J";
+        } else if (signValue >= 9.5 && signValue < 10.5) {
+            value = "K";
+        } else if (signValue >= 10.5 && signValue < 11.5) {
+            value = "L";
+        } else if (signValue >= 11.5 && signValue < 12.5) {
+            value = "M";
+        } else if (signValue >= 12.5 && signValue < 13.5) {
+            value = "N";
+        } else if (signValue >= 13.5 && signValue < 14.5) {
+            value = "O";
+        } else if (signValue >= 14.5 && signValue < 15.5) {
+            value = "P";
+        } else if (signValue >= 15.5 && signValue < 16.5) {
+            value = "Q";
+        } else if (signValue >= 16.5 && signValue < 17.5) {
+            value = "R";
+        } else if (signValue >= 17.5 && signValue < 18.5) {
+            value = "S";
+        } else if (signValue >= 18.5 && signValue < 19.5) {
+            value = "T";
+        } else if (signValue >= 19.5 && signValue < 20.5) {
+            value = "U";
+        } else if (signValue >= 20.5 && signValue < 21.5) {
+            value = "V";
+        } else if (signValue >= 21.5 && signValue < 22.5) {
+            value = "W";
+        } else if (signValue >= 22.5 && signValue < 23.5) {
+            value = "X";
+        } else if (signValue >= 23.5 && signValue < 24.5) {
+            value = "Y";
+        } else if (signValue >= 24.5 && signValue < 25.5) {
+            value = "Z";
+        }
+        else {
+            value = "Y";
+        }
+
+        return value;
+    }
 
 
 
