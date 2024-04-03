@@ -224,9 +224,11 @@ public class  objectDetectorClass {
 
 
                 Log.d("objectDetectionClass", "output_class_value" + output_class_value[0][0]);
-                //int maxIndex = getMaxIndex(output_class_value[0]);
+                float maxIndex = getMaxIndex(output_class_value[0]);
+                Log.d("maxxIndexxxxxxx", "maxxIndex" + maxIndex);
+
                 //String sign_val = labelList.get(maxIndex);
-                String sign_val = getAlphabets(output_class_value[0][0]);
+                String sign_val = getAlphabets(maxIndex);
                 Imgproc.putText(rotated_mat_image, ""+ sign_val, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255),2);
 
                 Imgproc.rectangle(rotated_mat_image,new Point(x1,y1),new Point(x2,y2),new Scalar(0,255,0,255),2);
@@ -254,15 +256,15 @@ public class  objectDetectorClass {
             value = "A";
         } else if (signValue >= 0.5 && signValue < 1.5) {
             value = "B";
-        } else if (signValue >= 1.5 && signValue < 2.5) {
+        } else if (signValue >= 17.5 && signValue < 18.5) {
             value = "C";
-        } else if (signValue >= 2.5 && signValue < 3.5) {
+        } else if (signValue >= 2.5 && signValue < 3.5) {   // 17.5 -- 18.5 C
             value = "D";
-        } else if (signValue >= 3.5 && signValue < 4.5) {
+        } else if (signValue >= 3.5 && signValue < 4.5) {   // 18.5 -- 19.5 L
             value = "E";
-        } else if (signValue >= 4.5 && signValue < 5.5) {
+        } else if (signValue >= 4.5 && signValue < 5.5) {   //  7.5 -- 8.5 I
             value = "F";
-        } else if (signValue >= 5.5 && signValue < 6.5) {
+        } else if (signValue >= 5.5 && signValue < 6.5) {   // 9.5 -- 10.5 V
             value = "G";
         } else if (signValue >= 6.5 && signValue < 7.5) {
             value = "H";
@@ -270,9 +272,9 @@ public class  objectDetectorClass {
             value = "I";
         } else if (signValue >= 8.5 && signValue < 9.5) {
             value = "J";
-        } else if (signValue >= 9.5 && signValue < 10.5) {
+        } else if (signValue >= 20.5 && signValue < 21.5) {
             value = "K";
-        } else if (signValue >= 10.5 && signValue < 11.5) {
+        } else if (signValue >= 18.5 && signValue < 19.5) {
             value = "L";
         } else if (signValue >= 11.5 && signValue < 12.5) {
             value = "M";
@@ -286,13 +288,13 @@ public class  objectDetectorClass {
             value = "Q";
         } else if (signValue >= 16.5 && signValue < 17.5) {
             value = "R";
-        } else if (signValue >= 17.5 && signValue < 18.5) {
+        } else if (signValue >= 1.5 && signValue < 2.5) {
             value = "S";
-        } else if (signValue >= 18.5 && signValue < 19.5) {
+        } else if (signValue >= 10.5 && signValue < 11.5) {
             value = "T";
         } else if (signValue >= 19.5 && signValue < 20.5) {
             value = "U";
-        } else if (signValue >= 20.5 && signValue < 21.5) {
+        } else if (signValue >= 9.5 && signValue < 10.5) {
             value = "V";
         } else if (signValue >= 21.5 && signValue < 22.5) {
             value = "W";
