@@ -93,6 +93,22 @@ public class  objectDetectorClass {
         return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,declaredLength);
     }
 
+     public static  int LetterScores(float[][] output_class_value) {
+
+         int maxIndex = 0;
+         for (int i = 1; i < output_class_value[0].length; i++) {
+             if (output_class_value[0][i] > output_class_value[0][maxIndex]) {
+                 maxIndex = i;
+             }
+         }
+         // The corresponding letter
+         char predictedLetter = (char) ('A' + maxIndex);
+         // Output the result
+         System.out.printf("The predicted letter is %c with a score of %.2f\n", predictedLetter, output_class_value[0][maxIndex]);
+
+         return maxIndex;
+    }
+
     private int getMaxIndex(float[] scores) {
         int maxIndex = 0;
         for (int i = 1; i < scores.length; i++) {
@@ -126,15 +142,15 @@ public class  objectDetectorClass {
         width=bitmap.getWidth();
 
         // scale the bitmap to input size of model
-         Bitmap scaledBitmap=Bitmap.createScaledBitmap(bitmap,INPUT_SIZE,INPUT_SIZE,false);
+        Bitmap scaledBitmap=Bitmap.createScaledBitmap(bitmap,INPUT_SIZE,INPUT_SIZE,false);
 
-         // convert bitmap to bytebuffer as model input should be in it
+        // convert bitmap to bytebuffer as model input should be in it
         ByteBuffer byteBuffer=convertBitmapToByteBuffer(scaledBitmap);
 
         // defining output
         // 10: top 10 object detected
         // 4: there coordinate in image
-      //  float[][][]result=new float[1][10][4];
+        //  float[][][]result=new float[1][10][4];
         Object[] input=new Object[1];
         input[0]=byteBuffer;
 
@@ -186,24 +202,24 @@ public class  objectDetectorClass {
                 // draw rectangle in Original frame //  starting point    // ending point of box  // color of box       thickness
                 Imgproc.rectangle(rotated_mat_image,new Point(x1,y1),new Point(x2,y2),new Scalar(0, 255, 0, 255),2);
                 // write text on frame
-                                                // string of class name of object  // starting point                         // color of text           // size of text
-               // Imgproc.putText(rotated_mat_image,labelList.get((int) class_value),new Point(left,top),3,1,new Scalar(255, 0, 0, 255),2);
+                // string of class name of object  // starting point                         // color of text           // size of text
+                // Imgproc.putText(rotated_mat_image,labelList.get((int) class_value),new Point(left,top),3,1,new Scalar(255, 0, 0, 255),2);
 
-              if(y1<0) {
-                  y1 = 0;
-              }
-              if(x1<0) {
-                  x1= 0;
-              }
-              if(x2>width) {
-                  x2 = width;
-              }
-              if(y2>height) {
-                  y2 = height;
-              }
+                if(y1<0) {
+                    y1 = 0;
+                }
+                if(x1<0) {
+                    x1= 0;
+                }
+                if(x2>width) {
+                    x2 = width;
+                }
+                if(y2>height) {
+                    y2 = height;
+                }
 
-              float w1 = x2-x1;
-              float h1= y2-y1;
+                float w1 = x2-x1;
+                float h1= y2-y1;
 
                 Rect cropped_roi = new Rect((int)x1,(int)y1, (int)w1,(int)h1);
 
@@ -220,16 +236,20 @@ public class  objectDetectorClass {
 
                 float[][] output_class_value = new float[1][26];
 
+
                 interpreter2.run(byteBuffer1,output_class_value);
+
+               // char letter = LetterScores(output_class_value);
+
+                Log.d("outputtClass", "outputtClass" + output_class_value[0][0]);
 
 
                 Log.d("objectDetectionClass", "output_class_value" + output_class_value[0][0]);
-                float maxIndex = getMaxIndex(output_class_value[0]);
-                Log.d("maxxIndexxxxxxx", "maxxIndex" + maxIndex);
+                 float maxIndex = getMaxIndex(output_class_value[0]);
+               Log.d("maxxIndexxxxxxx", "maxxIndex" + maxIndex);
 
-                //String sign_val = labelList.get(maxIndex);
-                String sign_val = getAlphabets(maxIndex);
-                Imgproc.putText(rotated_mat_image, ""+ sign_val, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255),2);
+                // String sign_val = getAlphabets(maxIndex);
+                Imgproc.putText(rotated_mat_image, ""+ maxIndex, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255),2);
 
                 Imgproc.rectangle(rotated_mat_image,new Point(x1,y1),new Point(x2,y2),new Scalar(0,255,0,255),2);
 
@@ -248,6 +268,8 @@ public class  objectDetectorClass {
         // Now for second change go to CameraBridgeViewBase
         return mat_image;
     }
+
+
 
     private String getAlphabets(float signValue) {
         String value = "";
@@ -351,7 +373,7 @@ public class  objectDetectorClass {
                 }
             }
         }
-    return byteBuffer;
+        return byteBuffer;
     }
 
     private ByteBuffer convertBitmapToByteBuffer1(Bitmap bitmap) {
