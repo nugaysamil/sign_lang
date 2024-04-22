@@ -79,6 +79,8 @@ public class  objectDetectorClass {
             labelList.add(line);
         }
         reader.close();
+        Log.d("labellist", "outputtClass" + labelList);
+
         return labelList;
     }
 
@@ -93,21 +95,18 @@ public class  objectDetectorClass {
         return fileChannel.map(FileChannel.MapMode.READ_ONLY,startOffset,declaredLength);
     }
 
-     public static  int LetterScores(float[][] output_class_value) {
-
-         int maxIndex = 0;
-         for (int i = 1; i < output_class_value[0].length; i++) {
-             if (output_class_value[0][i] > output_class_value[0][maxIndex]) {
-                 maxIndex = i;
-             }
-         }
-         // The corresponding letter
-         char predictedLetter = (char) ('A' + maxIndex);
-         // Output the result
-         System.out.printf("The predicted letter is %c with a score of %.2f\n", predictedLetter, output_class_value[0][maxIndex]);
-
-         return maxIndex;
+    public String LetterScores(float[][] output_class_value) {
+        int maxIndex = 0;
+        for (int i = 1; i < output_class_value[0].length; i++) {
+            if (output_class_value[0][i] > output_class_value[0][maxIndex]) {
+                maxIndex = i;
+            }
+        }
+        String predictedLabel = labelList.get(maxIndex); // Use the label directly from the list
+        Log.d("PredictedLabel", "The predicted label is " + predictedLabel + " with a score of " + output_class_value[0][maxIndex]);
+        return predictedLabel;
     }
+
 
     private int getMaxIndex(float[] scores) {
         int maxIndex = 0;
@@ -120,10 +119,7 @@ public class  objectDetectorClass {
     }
     // create new Mat function
     public Mat recognizeImage(Mat mat_image){
-        // Rotate original image by 90 degree get get portrait frame
 
-        // This change was done in video: Does Your App Keep Crashing? | Watch This Video For Solution.
-        // This will fix crashing problem of the app
 
         Mat rotated_mat_image=new Mat();
 
@@ -239,17 +235,24 @@ public class  objectDetectorClass {
 
                 interpreter2.run(byteBuffer1,output_class_value);
 
-               // char letter = LetterScores(output_class_value);
+                String label = LetterScores(output_class_value);
 
                 Log.d("outputtClass", "outputtClass" + output_class_value[0][0]);
+                Log.d("outputtClass0-1", "outputtClass" + output_class_value[0][1]);
+                Log.d("outputtClass0-2", "outputtClass" + output_class_value[0][2]);
+
+                Log.d("outputtClass0-3", "outputtClass" + output_class_value[0][3]);
+
+
+                Log.d("outputtClass23", "outputtClass" + output_class_value[0][23]);
 
 
                 Log.d("objectDetectionClass", "output_class_value" + output_class_value[0][0]);
                  float maxIndex = getMaxIndex(output_class_value[0]);
                Log.d("maxxIndexxxxxxx", "maxxIndex" + maxIndex);
 
-                // String sign_val = getAlphabets(maxIndex);
-                Imgproc.putText(rotated_mat_image, ""+ maxIndex, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255),2);
+                 String sign_val = getAlphabets(maxIndex);
+                Imgproc.putText(rotated_mat_image, ""+ label, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255),2);
 
                 Imgproc.rectangle(rotated_mat_image,new Point(x1,y1),new Point(x2,y2),new Scalar(0,255,0,255),2);
 
@@ -307,7 +310,7 @@ public class  objectDetectorClass {
         } else if (signValue >= 14.5 && signValue < 15.5) {
             value = "P";
         } else if (signValue >= 15.5 && signValue < 16.5) {
-            value = "Q";
+            value = "B";
         } else if (signValue >= 16.5 && signValue < 17.5) {
             value = "R";
         } else if (signValue >= 1.5 && signValue < 2.5) {
@@ -328,7 +331,7 @@ public class  objectDetectorClass {
             value = "Z";
         }
         else {
-            value = "Y";
+            value = "Nothing";
         }
 
         return value;
