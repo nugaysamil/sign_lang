@@ -8,11 +8,17 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 
+import com.example.imagepro.databinding.ActivityMainBinding;
+
 import org.opencv.android.OpenCVLoader;
+import org.w3c.dom.Text;
 
 import java.io.IOException;
 
 public class MainActivity extends AppCompatActivity {
+    private ActivityMainBinding binding;
+
+
     static {
         if(OpenCVLoader.initDebug()){
             Log.d("MainActivity: ","Opencv is loaded");
@@ -23,18 +29,16 @@ public class MainActivity extends AppCompatActivity {
     }
 
     private Button camera_button;
+    private Button letsButton;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-                                                                                
 
-        // select device and run
-        // we successfully loaded model
-        // before next tutorial
-        // as we are going to predict in Camera Activity
-        // Next tutorial will be about predicting using Interpreter
+        super.onCreate(savedInstanceState);
+        binding = ActivityMainBinding.inflate(getLayoutInflater());
+
+        setContentView(binding.getRoot());
 
 
         camera_button=findViewById(R.id.camera_button);
@@ -45,5 +49,12 @@ public class MainActivity extends AppCompatActivity {
             }
         });
 
+        letsButton = findViewById(R.id.letsButton);
+        letsButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                startActivity(new Intent(MainActivity.this, HomeScreen.class));
+            }
+        });
     }
 }

@@ -4,9 +4,17 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <org.opencv.android.JavaCameraView
+    <TextView
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:id="@+id/frame_Surface"/>
+        android:layout_gravity="center"
+        android:textSize="16sp"
+        android:text="cameraa" />
+
+    <org.opencv.android.JavaCameraView
+        android:id="@+id/frame_Surface"
+        android:layout_width="match_parent"
+
+        android:layout_height="match_parent" />
 
 </FrameLayout>
