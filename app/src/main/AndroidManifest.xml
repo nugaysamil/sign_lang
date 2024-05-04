@@ -26,10 +26,10 @@
         android:theme="@style/Theme.ImagePro">
         <activity
             android:name=".QuizQuestionActivity"
+            android:exported="false"
             android:screenOrientation="portrait"
             android:theme="@style/NoActionBarTheme"
-            android:windowSoftInputMode="adjustResize"
-            android:exported="false">
+            android:windowSoftInputMode="adjustResize">
             <meta-data
                 android:name="android.app.lib_name"
                 android:value="" />
