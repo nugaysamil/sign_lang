@@ -2,16 +2,26 @@ package com.example.imagepro
 
 import java.util.*
 
- class Constants {
+ object Constants {
 
-    fun getQuestions(): ArrayList<Questions> {
+     const val USER_NAME: String = "user_name"
+     const val TOTAL_QUESTIONS: String = "total_question"
+
+     const val CORRECT_ANSWER: String = "correct_answers"
+
+
+
+
+
+     fun getQuestions(): ArrayList<Questions> {
         val questionsList = ArrayList<Questions>()
 
         val que1 = Questions(
             id = 1,
-            image = "A.jpg",
+            image = R.drawable.a,
             optionOne = "A",
             optionTwo = "B",
+            question = "What?",
             optionThree = "C",
             optionFour = "D",
             correctAnswer = 1
@@ -22,7 +32,8 @@ import java.util.*
 
         val que2 = Questions(
             id = 2,
-            image = "B.jpg",
+            image = R.drawable.b,
+            question = "What?",
             optionOne = "A",
             optionTwo = "B",
             optionThree = "C",
@@ -35,7 +46,8 @@ import java.util.*
 
         val que3 = Questions(
             id = 3,
-            image = "C.jpg",
+            question = "What?",
+            image = R.drawable.c,
             optionOne = "A",
             optionTwo = "B",
             optionThree = "C",
@@ -46,8 +58,9 @@ import java.util.*
 
         questionsList.add(que3)
         val que4 = Questions(
+            question = "What?",
             id = 4,
-            image = "D.jpg",
+            image = R.drawable.d,
             optionOne = "A",
             optionTwo = "B",
             optionThree = "C",

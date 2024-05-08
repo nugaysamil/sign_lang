@@ -32,6 +32,8 @@ public class Question extends Fragment {
                 } else {
                     // Create an Intent to start QuizQuestionActivity if the EditText is not empty
                     Intent intent = new Intent(getActivity(), QuizQuestionActivity.class);
+                    intent.putExtra(Constants.USER_NAME,et_name.getText().toString());
+
                     startActivity(intent);
                 }
             }
