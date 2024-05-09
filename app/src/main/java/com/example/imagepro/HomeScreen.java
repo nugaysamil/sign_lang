@@ -30,7 +30,6 @@ public class HomeScreen extends AppCompatActivity {
 
         loadFragment(new Home(), true);
 
-
         bottomNavigationView.setOnNavigationItemSelectedListener(new BottomNavigationView.OnNavigationItemSelectedListener() {
             @Override
             public boolean onNavigationItemSelected(@NonNull MenuItem item) {
