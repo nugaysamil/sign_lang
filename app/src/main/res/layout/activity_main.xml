@@ -23,7 +23,7 @@
         android:layout_height="wrap_content"
         android:text="SignDet'e Hoş Geldiniz!"
         android:textAllCaps="false"
-
+        android:fontFamily="@font/robotobold"
         android:textSize="23dp"
         android:textColor="@color/white"
         android:textStyle="bold"
@@ -37,12 +37,16 @@
         android:textColor="@color/white"
         android:textStyle="bold"
         android:layout_marginBottom="30dp"
+        android:fontFamily="@font/robotobold"
+
         />
     <Button
         android:layout_width="wrap_content"
         android:layout_height="50dp"
         android:id="@+id/camera_button"
         android:text="Real-time"
+        android:fontFamily="@font/robotobold"
+
         android:textAllCaps="false"
         />
     <Button
@@ -54,9 +58,8 @@
         android:textAllCaps="false"
         android:textColor="@color/white"
         android:padding="10dp"
-        android:fontFamily="sans-serif"
+        android:fontFamily="@font/robotobold"
+
     />
-
-
 
 </LinearLayout>

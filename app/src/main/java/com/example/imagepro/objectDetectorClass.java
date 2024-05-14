@@ -230,7 +230,7 @@ public class  objectDetectorClass {
 
                 ByteBuffer byteBuffer1 = convertBitmapToByteBuffer1(scaledBitmap1);
 
-                float[][] output_class_value = new float[1][26];
+                float[][] output_class_value = new float[1][25];
 
 
                 interpreter2.run(byteBuffer1,output_class_value);
@@ -252,7 +252,7 @@ public class  objectDetectorClass {
                Log.d("maxxIndexxxxxxx", "maxxIndex" + maxIndex);
 
                  String sign_val = getAlphabets(maxIndex);
-                Imgproc.putText(rotated_mat_image, ""+ sign_val, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255),2);
+                Imgproc.putText(rotated_mat_image, ""+ label, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255),2);
 
                 Imgproc.rectangle(rotated_mat_image,new Point(x1,y1),new Point(x2,y2),new Scalar(0,255,0,255),2);
 

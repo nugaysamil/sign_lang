@@ -42,7 +42,6 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
                 default:
                 {
                     super.onManagerConnected(status);
-
                 }
                 break;
             }
@@ -73,7 +72,7 @@ public class CameraActivity extends Activity implements CameraBridgeViewBase.CvC
         mOpenCvCameraView.setCvCameraViewListener(this);
         try{
 
-            objectDetectorClass=new objectDetectorClass(getAssets(),"hand_model.tflite","labels.txt",300, "MobileNet.tflite",224);
+            objectDetectorClass=new objectDetectorClass(getAssets(),"hand_model.tflite","labels.txt",300, "deneme3.tflite",224);
             Log.d("MainActivity","Model is successfully loaded");
         }
         catch (IOException e){

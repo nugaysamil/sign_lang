@@ -18,7 +18,7 @@ import java.util.List;
 public class Home extends Fragment {
 
     private RecyclerView recyclerView;
-    private List<Sign> signList; // Changed to List<Sign>
+    private List<Sign> signList;
     private SignAdapter signAdapter;
 
     @Override
@@ -68,9 +68,6 @@ public class Home extends Fragment {
         // Initialize the adapter with the list and set it to the RecyclerView
         signAdapter = new SignAdapter((ArrayList<Sign>) signList);
         recyclerView.setAdapter(signAdapter);
-
-
-
 
         return view; // Return the view reference here
     }

@@ -21,12 +21,13 @@
             android:textColor="@color/black"
             android:textSize="22sp"
             android:text="Bir cevap seçiniz."
+            android:fontFamily="@font/leaguebold"
             android:layout_marginBottom="5dp"/>
 
         <ImageView
             android:id="@+id/iv_image"
             android:layout_width="300dp"
-        android:layout_height="300dp"
+        android:layout_height="250dp"
         android:scaleType="fitCenter"
         android:layout_marginTop="5dp"
         android:layout_marginBottom="5dp"

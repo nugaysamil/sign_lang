@@ -9,16 +9,6 @@
     android:background="@color/colorAccent"
     tools:context=".Question">
 
-    <TextView
-        android:id="@+id/tv_app_name"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        android:text="Quiz App"
-        android:layout_marginBottom="30dp"
-        android:textColor="@color/white"
-        android:textSize="26sp"
-        />
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
@@ -39,16 +29,19 @@
                 android:gravity="center"
                 android:textStyle="bold"
                 android:text="Hoşgeldiniz"
+                android:fontFamily="@font/robotobold"
                 android:textColor="@color/black"
-                android:textSize="30sp"></TextView>
+                android:textSize="24sp"></TextView>
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:gravity="center"
                 android:textStyle="bold"
                 android:text="Lütfen isminizi giriniz"
+                android:fontFamily="@font/robotlight"
+
                 android:textColor="@color/colorAccent"
-                android:textSize="30sp"/>
+                android:textSize="20sp"/>
             <com.google.android.material.textfield.TextInputLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -62,6 +55,8 @@
                   android:hint="İsim"
                   android:textColor="@color/black"
                   android:textColorHint="@color/black"
+                  android:fontFamily="@font/robotlight"
+
 
                   />
                 <Button
@@ -71,7 +66,9 @@
                     android:layout_marginTop="16dp"
                     android:background="@color/colorPrimary"
                     android:text="Başla"
-                    android:textSize="18sp"
+                    android:textSize="16sp"
+                    android:fontFamily="@font/robotobold"
+
                     android:textColor="@color/white"
 
                     />

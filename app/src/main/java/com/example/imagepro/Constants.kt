@@ -21,7 +21,6 @@ import java.util.*
             image = R.drawable.a,
             optionOne = "A",
             optionTwo = "B",
-            question = "What?",
             optionThree = "C",
             optionFour = "D",
             correctAnswer = 1
@@ -33,7 +32,6 @@ import java.util.*
         val que2 = Questions(
             id = 2,
             image = R.drawable.b,
-            question = "What?",
             optionOne = "A",
             optionTwo = "B",
             optionThree = "C",
@@ -46,7 +44,6 @@ import java.util.*
 
         val que3 = Questions(
             id = 3,
-            question = "What?",
             image = R.drawable.c,
             optionOne = "A",
             optionTwo = "B",
@@ -58,7 +55,6 @@ import java.util.*
 
         questionsList.add(que3)
         val que4 = Questions(
-            question = "What?",
             id = 4,
             image = R.drawable.d,
             optionOne = "A",
@@ -70,6 +66,19 @@ import java.util.*
 
 
         questionsList.add(que4)
+
+         val que5 = Questions(
+             id = 4,
+             image = R.drawable.e,
+             optionOne = "A",
+             optionTwo = "B",
+             optionThree = "C",
+             optionFour = "D",
+             correctAnswer = 4
+         )
+
+
+         questionsList.add(que4)
 
         // You can add more questions similarly
         return questionsList
