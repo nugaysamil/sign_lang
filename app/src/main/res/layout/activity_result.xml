@@ -15,7 +15,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="25dp"
         android:text="Sonuç"
-        android:textColor="@color/white"
+        android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"/>
 
@@ -25,6 +25,7 @@
         android:layout_height="wrap_content"
         android:layout_marginTop="16dp"
         android:text="Tebrikler!"
+        android:fontFamily="@font/robotobold"
         android:textColor="@color/black"
         android:textSize="25sp"
         android:textStyle="bold"/>
@@ -36,6 +37,8 @@
         android:layout_marginTop="25dp"
         android:textColor="@color/black"
         android:textSize="22sp"
+        android:fontFamily="@font/robotobold"
+
         android:textStyle="bold"
         tools:text="Username" />
 
@@ -44,6 +47,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="10dp"
+        android:fontFamily="@font/robotlight"
+
         android:textColor="@android:color/secondary_text_dark"
         android:textSize="20sp"
         tools:text="Sorun 9 içinde 10 doğru"/>
@@ -55,6 +60,7 @@
         android:layout_marginTop="10dp"
         android:background="@android:color/white"
         android:text="BITTI"
+        android:fontFamily="@font/robotobold"
         android:textColor="@color/colorPrimary"
         android:textSize="18sp"
         android:textStyle="bold"/>

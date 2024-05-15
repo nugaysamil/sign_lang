@@ -47,7 +47,7 @@
                 android:layout_width="0dp"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
-                android:max="10"
+                android:max="23"
                 android:progress="0"
                 android:indeterminate="false"
                 android:layout_marginBottom="5dp"/>
@@ -116,9 +116,10 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_margin="10dp"
-            android:background="@color/colorPrimary"
+            android:background="@color/colorRed"
             android:text="KAYDET"
             android:textColor="@android:color/white"
+            android:fontFamily="@font/leaguebold"
             android:textSize="18sp"
             android:textStyle="bold"
 

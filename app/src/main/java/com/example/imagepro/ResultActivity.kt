@@ -19,7 +19,7 @@ class ResultActivity : AppCompatActivity() {
         signNameTextView.text = username
 
         val signScoreTextView: TextView = findViewById(R.id.sign_score)
-        signScoreTextView.text = "Sorun $totalQuestions içinde $correctAnswer doğru"
+        signScoreTextView.text = " $totalQuestions soru içinde $correctAnswer doğru"
 
         val finishButton: Button = findViewById(R.id.btn_finish)
         finishButton.setOnClickListener {
