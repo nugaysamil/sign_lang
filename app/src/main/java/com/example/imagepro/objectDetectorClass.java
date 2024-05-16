@@ -11,6 +11,7 @@ import org.opencv.core.Core;
 import org.opencv.core.Mat;
 import org.opencv.core.Point;
 import org.opencv.core.Scalar;
+import org.opencv.core.Size;
 import org.opencv.imgproc.Imgproc;
 import org.tensorflow.lite.Interpreter;
 import org.tensorflow.lite.gpu.GpuDelegate;
@@ -120,158 +121,112 @@ public class  objectDetectorClass {
     // create new Mat function
     public Mat recognizeImage(Mat mat_image){
 
-
-        Mat rotated_mat_image=new Mat();
-
-        Mat a=mat_image.t();
-        Core.flip(a,rotated_mat_image,1);
-        // Release mat
+        Mat rotated_mat_image = new Mat();
+        Mat a = mat_image.t();
+        Core.flip(a, rotated_mat_image, 1);
         a.release();
 
-        // if you do not do this process you will get improper prediction, less no. of object
-        // now convert it to bitmap
-        Bitmap bitmap=null;
-        bitmap=Bitmap.createBitmap(rotated_mat_image.cols(),rotated_mat_image.rows(),Bitmap.Config.ARGB_8888);
-        Utils.matToBitmap(rotated_mat_image,bitmap);
-        // define height and width
-        height=bitmap.getHeight();
-        width=bitmap.getWidth();
+        Bitmap bitmap = Bitmap.createBitmap(rotated_mat_image.cols(), rotated_mat_image.rows(), Bitmap.Config.ARGB_8888);
+        Utils.matToBitmap(rotated_mat_image, bitmap);
 
-        // scale the bitmap to input size of model
-        Bitmap scaledBitmap=Bitmap.createScaledBitmap(bitmap,INPUT_SIZE,INPUT_SIZE,false);
+        height = bitmap.getHeight();
+        width = bitmap.getWidth();
 
-        // convert bitmap to bytebuffer as model input should be in it
-        ByteBuffer byteBuffer=convertBitmapToByteBuffer(scaledBitmap);
+        Bitmap scaledBitmap = Bitmap.createScaledBitmap(bitmap, INPUT_SIZE, INPUT_SIZE, false);
+        ByteBuffer byteBuffer = convertBitmapToByteBuffer(scaledBitmap);
 
-        // defining output
-        // 10: top 10 object detected
-        // 4: there coordinate in image
-        //  float[][][]result=new float[1][10][4];
-        Object[] input=new Object[1];
-        input[0]=byteBuffer;
+        Object[] input = new Object[1];
+        input[0] = byteBuffer;
 
-        Map<Integer,Object> output_map=new TreeMap<>();
-        // we are not going to use this method of output
-        // instead we create treemap of three array (boxes,score,classes)
+        Map<Integer, Object> output_map = new TreeMap<>();
 
-        float[][][]boxes =new float[1][10][4];
-        // 10: top 10 object detected
-        // 4: there coordinate in image
-        float[][] scores=new float[1][10];
-        // stores scores of 10 object
-        float[][] classes=new float[1][10];
-        // stores class of object
+        float[][][] boxes = new float[1][10][4];
+        float[][] scores = new float[1][10];
+        float[][] classes = new float[1][10];
 
-        // add it to object_map;
-        output_map.put(0,boxes);
-        output_map.put(1,classes);
-        output_map.put(2,scores);
+        output_map.put(0, boxes);
+        output_map.put(1, classes);
+        output_map.put(2, scores);
 
-        // now predict
-        interpreter.runForMultipleInputsOutputs(input,output_map);
-        // Before watching this video please watch my previous 2 video of
-        //      1. Loading tensorflow lite model
-        //      2. Predicting object
-        // In this video we will draw boxes and label it with it's name
+        interpreter.runForMultipleInputsOutputs(input, output_map);
 
-        Object value=output_map.get(0);
-        Object Object_class=output_map.get(1);
-        Object score=output_map.get(2);
+        Object value = output_map.get(0);
+        Object object_class = output_map.get(1);
+        Object score = output_map.get(2);
 
-        // loop through each object
-        // as output has only 10 boxes
-        for (int i=0;i<10;i++){
-            float class_value=(float) Array.get(Array.get(Object_class,0),i);
-            float score_value=(float) Array.get(Array.get(score,0),i);
-            // define threshold for score
+        int maxScoreIndex = -1;
+        float maxScore = 0.0f;
 
-            // Here you can change threshold according to your model
-            // Now we will do some change to improve app
-            if(score_value>0.5){
-                Object box1=Array.get(Array.get(value,0),i);
-                // we are multiplying it with Original height and width of frame
-
-                float y1=(float) Array.get(box1,0)*height;
-                float x1=(float) Array.get(box1,1)*width;
-                float y2=(float) Array.get(box1,2)*height;
-                float x2=(float) Array.get(box1,3)*width;
-                // draw rectangle in Original frame //  starting point    // ending point of box  // color of box       thickness
-                Imgproc.rectangle(rotated_mat_image,new Point(x1,y1),new Point(x2,y2),new Scalar(0, 255, 0, 255),2);
-                // write text on frame
-                // string of class name of object  // starting point                         // color of text           // size of text
-                // Imgproc.putText(rotated_mat_image,labelList.get((int) class_value),new Point(left,top),3,1,new Scalar(255, 0, 0, 255),2);
-
-                if(y1<0) {
-                    y1 = 0;
-                }
-                if(x1<0) {
-                    x1= 0;
-                }
-                if(x2>width) {
-                    x2 = width;
-                }
-                if(y2>height) {
-                    y2 = height;
-                }
-
-                float w1 = x2-x1;
-                float h1= y2-y1;
-
-                Rect cropped_roi = new Rect((int)x1,(int)y1, (int)w1,(int)h1);
-
-                Mat cropped = new Mat(rotated_mat_image,cropped_roi).clone();
-
-                Bitmap bitmap1 = null;
-                bitmap1= Bitmap.createBitmap(cropped.cols(),cropped.rows(),Bitmap.Config.ARGB_8888);
-
-                Utils.matToBitmap(cropped,bitmap1);
-
-                Bitmap scaledBitmap1 = Bitmap.createScaledBitmap(bitmap1,Classification_Input_Size,Classification_Input_Size,false);
-
-                ByteBuffer byteBuffer1 = convertBitmapToByteBuffer1(scaledBitmap1);
-
-                float[][] output_class_value = new float[1][25];
-
-
-                interpreter2.run(byteBuffer1,output_class_value);
-
-                String label = LetterScores(output_class_value);
-
-                Log.d("outputtClass", "outputtClass" + output_class_value[0][0]);
-                Log.d("outputtClass0-1", "outputtClass" + output_class_value[0][1]);
-                Log.d("outputtClass0-2", "outputtClass" + output_class_value[0][2]);
-
-                Log.d("outputtClass0-3", "outputtClass" + output_class_value[0][3]);
-
-
-                Log.d("outputtClass23", "outputtClass" + output_class_value[0][23]);
-
-
-                Log.d("objectDetectionClass", "output_class_value" + output_class_value[0][0]);
-                 float maxIndex = getMaxIndex(output_class_value[0]);
-               Log.d("maxxIndexxxxxxx", "maxxIndex" + maxIndex);
-
-                 String sign_val = getAlphabets(maxIndex);
-                Imgproc.putText(rotated_mat_image, ""+ label, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255),2);
-
-                Imgproc.rectangle(rotated_mat_image,new Point(x1,y1),new Point(x2,y2),new Scalar(0,255,0,255),2);
-
+        for (int i = 0; i < 10; i++) {
+            float score_value = (float) Array.get(Array.get(score, 0), i);
+            if (score_value > maxScore) {
+                maxScore = score_value;
+                maxScoreIndex = i;
             }
-
-
         }
-        // select device and run
 
-        // before returning rotate back by -90 degree
+        if (maxScoreIndex != -1 && maxScore > 0.5) {
+            Object box1 = Array.get(Array.get(value, 0), maxScoreIndex);
 
-        // Do same here
-        Mat b=rotated_mat_image.t();
-        Core.flip(b,mat_image,0);
+            float y1 = (float) Array.get(box1, 0) * height;
+            float x1 = (float) Array.get(box1, 1) * width;
+            float y2 = (float) Array.get(box1, 2) * height;
+            float x2 = (float) Array.get(box1, 3) * width;
+
+            Imgproc.rectangle(rotated_mat_image, new Point(x1, y1), new Point(x2, y2), new Scalar(0, 255, 0, 255), 2);
+
+            if (y1 < 0) y1 = 0;
+            if (x1 < 0) x1 = 0;
+            if (x2 > width) x2 = width;
+            if (y2 > height) y2 = height;
+
+            float w1 = x2 - x1;
+            float h1 = y2 - y1;
+
+            Rect cropped_roi = new Rect((int) x1, (int) y1, (int) w1, (int) h1);
+            Mat cropped = new Mat(rotated_mat_image, cropped_roi).clone();
+
+            // Padding ekleme
+            int top = (400 - cropped.rows()) / 2;
+            int bottom = (400 - cropped.rows() + 1) / 2;
+            int left = (400 - cropped.cols()) / 2;
+            int right = (400 - cropped.cols() + 1) / 2;
+
+            // Eğer negatif değerler varsa, padding'i 0 yap
+            top = Math.max(top, 0);
+            bottom = Math.max(bottom, 0);
+            left = Math.max(left, 0);
+            right = Math.max(right, 0);
+
+            Mat padded = new Mat();
+            Core.copyMakeBorder(cropped, padded, top, bottom, left, right, Core.BORDER_CONSTANT, new Scalar(0, 0, 0));
+
+            // Resize işlemi
+            Mat resized = new Mat();
+            Imgproc.resize(padded, resized, new Size(224, 224));
+
+            Bitmap bitmap1 = Bitmap.createBitmap(resized.cols(), resized.rows(), Bitmap.Config.ARGB_8888);
+            Utils.matToBitmap(resized, bitmap1);
+
+            ByteBuffer byteBuffer1 = convertBitmapToByteBuffer1(bitmap1);
+
+            float[][] output_class_value = new float[1][25];
+            interpreter2.run(byteBuffer1, output_class_value);
+
+            String label = LetterScores(output_class_value);
+            float maxIndex = getMaxIndex(output_class_value[0]);
+            String sign_val = getAlphabets(maxIndex);
+
+            Imgproc.putText(rotated_mat_image, sign_val, new Point(x1 + 10, y1 + 40), 2, 1.5, new Scalar(255, 255, 255, 255), 2);
+            Imgproc.rectangle(rotated_mat_image, new Point(x1, y1), new Point(x2, y2), new Scalar(0, 255, 0, 255), 2);
+        }
+
+        Mat b = rotated_mat_image.t();
+        Core.flip(b, mat_image, 0);
         b.release();
-        // Now for second change go to CameraBridgeViewBase
+
         return mat_image;
     }
-
 
 
     private String getAlphabets(float signValue) {

@@ -157,7 +157,7 @@ class QuizQuestionActivity : AppCompatActivity(), OnClickListener {
     private fun selectedOptionView(tv: TextView, selectedOptionNum: Int) {
         defaultOptionsView()
         mSelectedOptionPosition = selectedOptionNum
-        tv.setTextColor(Color.parseColor("#363A43"))
+        tv.setTextColor(Color.parseColor("#FF0000"))
         tv.setTypeface(tv.typeface, Typeface.BOLD)
         tv.background = ContextCompat.getDrawable(this, R.drawable.selected_option_border_bg)
     }
